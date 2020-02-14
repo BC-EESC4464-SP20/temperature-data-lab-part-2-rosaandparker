@@ -23,8 +23,8 @@ P_recent = NaN(length(sta'),2);
 %<--
 
 for i = 1:18
-    station_number = sta(1,i);
-    [P_all, P_recent] = StationTempObs_LinearTrend(station_number, RecentYear)
+    station = sta(i);
+    [P_all(i,:) P_recent(i,:)] = StationTempObs_LinearTrend(station,RecentYear);
 end
     
 
@@ -43,15 +43,13 @@ title('Locations of stations with observational temperature data')
 %change from RecentYear to present (i.e. the slope of the linear trendline)
 %<--
 
+slopes = P_recent(:,1);
 
-
-%% 
-figure(2); clf
+figure()
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon)
-scatterm(lon,sta)
-
+scatterm(lat,lon,'m','markersize',15)
 
 %% Extension option: again using scatterm, plot the difference between the
 %local rate of temperature change (plotted above) and the global mean rate
