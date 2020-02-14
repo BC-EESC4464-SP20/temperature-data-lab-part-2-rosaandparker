@@ -47,14 +47,13 @@ title('Locations of stations with observational temperature data')
 
 slope = P_recent(:,1);
 
-figure(1); clf
+figure
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon);
-scatterm(lat,lon,slope,'m);
-
+scatterm(lat,lon,50,slope,'filled');
+cmocean('balance');
 title('Locations of stations with observational temperature data')
-
 
 
 %% Extension option: again using scatterm, plot the difference between the
@@ -64,6 +63,17 @@ title('Locations of stations with observational temperature data')
 %Data visualization recommendation - use the colormap "balance" from the
 %function cmocean, which is a good diverging colormap option
 %<--
+
+globalMean = mean(slope);
+diffStation = slope - globalMean;
+
+figure()
+worldmap('World')
+load coastlines
+plotm(coastlat,coastlon);
+scatterm(lat,lon,50,diffStation,'filled');
+title('Locations of stations with observational temperature data')
+cmocean('balance');
 
 %% 4. Now calculate the projected future rate of temperature change at each of these 18 stations
 % using annual mean temperature data from GFDL model output following the
