@@ -57,8 +57,7 @@ station = readmatrix(filename);
         end
  end
     
-baseline_model = [mean(meanBase) std(meanBase)];
-
+baseline_model = [mean(meanBase) mea
 %% Calculate the 5-year moving mean smoothed annual mean temperature anomaly over the modeled period
 % Note that you could choose to provide these as an output if you want to
 % have these values available to plot.
