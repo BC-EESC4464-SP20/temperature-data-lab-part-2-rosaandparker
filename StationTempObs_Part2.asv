@@ -51,7 +51,7 @@ figure(1); clf
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon);
-scatterm(lat,lon,25,slope,'filled');
+scatterm(lat,lon,slope,'m);
 
 title('Locations of stations with observational temperature data')
 
