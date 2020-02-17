@@ -3,7 +3,7 @@
 clear
 clc
 %% 1. Load in a list of all 18 stations and their corresponding latitudes and longitudes
-load GlobalStationsLatLon.mat;
+load GlobalStationsLatLon.mat
 
 %% 2. Calculate the linear temperature trends over the historical observation period for all 18 station
 % You will do this using a similar approach as in Part 1 of this lab, but
@@ -50,7 +50,7 @@ figure
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon);
-scatterm(lat,lon,50,P_recent(:,1),'filled','MarkerEdgeColor','k');
+scatterm(lat,lon,50,P_recent(:,1),'filled');
 cmocean('balance','zero');
 title(['\DeltaT \circC yr^{-1} for Dataset Stations Jan ' num2str(RecentYear) '--Dec 2019']);
 
@@ -124,7 +124,7 @@ worldmap('World')
 load coastlines
 plotm(coastlat,coastlon);
 scatterm(lat,lon,50,model_baseline(:,2),'filled','MarkerEdgeColor','k');
-cmocean('k','negative');
+cmocean('amp');
 title('Projected Interannual Variation in Annual Mean T (\circC) for Dataset Stations 2006-2025')
 
 
@@ -140,32 +140,5 @@ title('Projected Interannual Variation in Annual Mean T (\circC) for Dataset Sta
 %temperatures from the baseline period
 %<--
 
-year_emergence = [];
-model_years = 2006:2100;
-
-for i = 1:length(sta')
-    isig = model_baseline(i,2);
-    itwosig = 2 * isig;
-    islope = model_lin_reg(i,1);
-    signal = 0;
-    n = 1;
-    
-    while signal < itwosig
-        signal = n * islope;
-        n = n + 1;
-    end
-    year_emergence(i,1) = model_years(n);
-end
-
 %Plot a global map showing the year of emergence
 %<--
-
-figure
-worldmap('World')
-load coastlines
-plotm(coastlat,coastlon);
-scatterm(lat,lon,50,year_emergence(:,1),'filled','MarkerEdgeColor','k');
-cmocean('-amp');
-title(['Year of Signal Emergence for Dataset Stations from 2006--2025 Model Baseline']);
-
-
