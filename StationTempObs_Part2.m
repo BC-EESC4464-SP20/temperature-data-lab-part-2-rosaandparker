@@ -14,7 +14,7 @@ load GlobalStationsLatLon.mat
 RecentYear = 1960; %you can see how your results change if you vary this value
 
 %Initialize arrays to hold slope and intercept values calculated for all stations
-P_all = NaN(length(sta),2); %example of how to do this for the full observational period
+P_all = NaN(length(sta'),2); %example of how to do this for the full observational period
 %<-- do the same thing just for values from RecentYear to today
 
 P_recent = NaN(length(sta'),2);
@@ -45,13 +45,11 @@ title('Locations of stations with observational temperature data')
 %change from RecentYear to present (i.e. the slope of the linear trendline)
 %<--
 
-slope = P_recent(:,1);
-
 figure
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon);
-scatterm(lat,lon,50,slope,'filled');
+scatterm(lat,lon,50,P_recent(:,1),'filled');
 cmocean('balance');
 title('Locations of stations with observational temperature data')
 
@@ -64,8 +62,8 @@ title('Locations of stations with observational temperature data')
 %function cmocean, which is a good diverging colormap option
 %<--
 
-globalMean = mean(slope);
-diffStation = slope - globalMean;
+
+diffStation = P_recent(:,1) - mean(P_recent(:,1));
 
 figure()
 worldmap('World')
@@ -87,12 +85,21 @@ cmocean('balance');
 % below
 %<--
 
+model_baseline = [];
+model_lin_reg = [];
+model_temp_anom = [];
+model_temp_movmean = [];
+
 % Write a for loop that will use the function StationModelProjections to
 % extract from the model projections for each station:
 % 1) the mean and standard deviation of the baseline period
 % (2006-2025) temperatures, 2) the annual mean temperature anomaly, and 3)
 % the slope and y-intercept of the linear trend over the 21st century
 %<--
+
+for i = 1:length(sta')
+    [model_baseline(:,:,i) model_lin_reg(:,:,i) model_temp_anom(:,:,i) model_temp_movmean(:,:,i)] = StationModelProjections(sta(i));
+end
 
 %% 5. Plot a global map of the rate of temperature change projected at each station over the 21st century
 %<--

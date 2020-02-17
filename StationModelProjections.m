@@ -1,4 +1,4 @@
-function [baseline_model, P] = StationModelProjections(station_number)
+function [baseline_model, P, stationTempAnom, stationMovMeanAnom] = StationModelProjections(station_number)
 
 % StationModelProjections Analyze modeled future temperature projections at individual stations
 %===================================================================
@@ -63,9 +63,16 @@ baseline_model = [mean(meanBase) std(meanBase)];
 % Note that you could choose to provide these as an output if you want to
 % have these values available to plot.
  %<-- anomaly
+ 
+ for i = 1:length(station)
+  stationTempAnom(i,1) = station(i,2) - mean(meanBase);
+ end
  %<-- smoothed anomaly
+ stationMovMeanAnom = movmean(stationTempAnom(:),5);
 
+ 
 %% Calculate the linear trend in temperature this station over the modeled 21st century period
  %<--
+P = polyfit(station(:,1),station(:,2),1);
 
 end
