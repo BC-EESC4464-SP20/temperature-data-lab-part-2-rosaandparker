@@ -2,6 +2,7 @@
 % Parker and Rosa
 clear
 clc
+
 %% 1. Load in a list of all 18 stations and their corresponding latitudes and longitudes
 load GlobalStationsLatLon.mat;
 
@@ -124,7 +125,7 @@ worldmap('World')
 load coastlines
 plotm(coastlat,coastlon);
 scatterm(lat,lon,50,model_baseline(:,2),'filled','MarkerEdgeColor','k');
-cmocean('k','negative');
+cmocean('amp');
 title('Projected Interannual Variation in Annual Mean T (\circC) for Dataset Stations 2006-2025')
 
 
@@ -167,5 +168,4 @@ plotm(coastlat,coastlon);
 scatterm(lat,lon,50,year_emergence(:,1),'filled','MarkerEdgeColor','k');
 cmocean('-amp');
 title(['Year of Signal Emergence for Dataset Stations from 2006--2025 Model Baseline']);
-
 
