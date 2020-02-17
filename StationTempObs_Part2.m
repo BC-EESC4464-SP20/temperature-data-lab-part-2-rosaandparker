@@ -45,13 +45,14 @@ title('Locations of stations with observational temperature data')
 %change from RecentYear to present (i.e. the slope of the linear trendline)
 %<--
 
+
 figure
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon);
 scatterm(lat,lon,50,P_recent(:,1),'filled');
-cmocean('balance');
-title('Locations of stations with observational temperature data')
+cmocean('balance','zero');
+title(['\DeltaT \circC yr^{-1} for Dataset Stations Jan ' num2str(RecentYear) '--Dec 2019']);
 
 
 %% Extension option: again using scatterm, plot the difference between the
@@ -69,9 +70,9 @@ figure()
 worldmap('World')
 load coastlines
 plotm(coastlat,coastlon);
-scatterm(lat,lon,50,diffStation,'filled');
-title('Locations of stations with observational temperature data')
-cmocean('balance');
+scatterm(lat,lon,50,diffStation,'filled','MarkerEdgeColor','k');
+cmocean('balance','zero');
+title(['Deviation from Global Mean Trend (' num2str(round(mean(P_recent(:,1)),3)) '\circC yr^{-1}) for Dataset Stations Jan ' num2str(RecentYear) '--Dec 2019']);
 
 %% 4. Now calculate the projected future rate of temperature change at each of these 18 stations
 % using annual mean temperature data from GFDL model output following the
@@ -98,16 +99,34 @@ model_temp_movmean = [];
 %<--
 
 for i = 1:length(sta')
-    [model_baseline(:,:,i) model_lin_reg(:,:,i) model_temp_anom(:,:,i) model_temp_movmean(:,:,i)] = StationModelProjections(sta(i));
+    [model_baseline(i,:) model_lin_reg(i,:) model_temp_anom(:,i) model_temp_movmean(:,i)] = StationModelProjections(sta(i));
 end
 
 %% 5. Plot a global map of the rate of temperature change projected at each station over the 21st century
 %<--
 
+figure
+worldmap('World')
+load coastlines
+plotm(coastlat,coastlon);
+scatterm(lat,lon,50,model_lin_reg(:,1),'filled','MarkerEdgeColor','k');
+cmocean('balance','zero');
+title(['Projected \DeltaT \circC yr^{-1} for Dataset Stations 2006--2100']);
+
+
 %% 6a. Plot a global map of the interannual variability in annual mean temperature at each station
 %as determined by the baseline standard deviation of the temperatures from
 %2005 to 2025
 %<--
+
+figure
+worldmap('World')
+load coastlines
+plotm(coastlat,coastlon);
+scatterm(lat,lon,50,model_baseline(:,2),'filled','MarkerEdgeColor','k');
+cmocean('amp');
+title('Projected Interannual Variation in Annual Mean T (\circC) for Dataset Stations 2006-2025')
+
 
 %% 6b-c. Calculate the time of emergence of the long-term change in temperature from local variability
 %There are many ways to make this calcuation, but here we will compare the
