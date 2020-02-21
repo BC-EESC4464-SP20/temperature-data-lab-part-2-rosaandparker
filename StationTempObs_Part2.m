@@ -25,7 +25,7 @@ P_recent = NaN(length(sta'),2);
 %using the function StationTempObs_LinearTrend
 %<--
 
-for i = 1:18
+for i = 1:length(sta')
     station = sta(i);
     [P_all(i,:) P_recent(i,:)] = StationTempObs_LinearTrend(station,RecentYear);
 end
@@ -141,8 +141,8 @@ title('Projected Interannual Variation in Annual Mean T (\circC) for Dataset Sta
 %temperatures from the baseline period
 %<--
 
-year_emergence = [];
-model_years = 2006:2100;
+year_emergence = nan(length(sta'),1);
+model_years = 2006:2099;
 
 for i = 1:length(sta')
     isig = model_baseline(i,2);
@@ -168,4 +168,3 @@ plotm(coastlat,coastlon);
 scatterm(lat,lon,50,year_emergence(:,1),'filled','MarkerEdgeColor','k');
 cmocean('-amp');
 title(['Year of Signal Emergence for Dataset Stations from 2006--2025 Model Baseline']);
-
