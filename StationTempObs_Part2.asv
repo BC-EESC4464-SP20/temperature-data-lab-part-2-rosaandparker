@@ -129,7 +129,7 @@ plotm(coastlat,coastlon);
 scatterm(lat,lon,50,model_baseline(:,2),'filled','MarkerEdgeColor','k');
 cmocean('amp');
 title({
-    ['Projected Interannual Variation in Annual Mean T (\circC)']
+    ['Projected Interannual Variation in Annual Mean T (\circC)'
     ['for Dataset Stations 2006-2025']})
 
 
